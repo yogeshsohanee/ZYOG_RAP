@@ -1,0 +1,6 @@
+@EndUserText.label: 'Flight connection service'
+define service ZFLIGHT_YSN {
+  expose ZI_Connection_Ysn;
+  expose ZI_FLIGHT_TECH_YSN;
+  expose ZI_CARRIER_TECH_YSN;
+}
