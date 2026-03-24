@@ -1,0 +1,20 @@
+@Metadata.layer: #CUSTOMER
+annotate entity zsac_c_bill_header
+    with 
+{
+    @EndUserText.label: 'Invoice Number'
+    BillId;
+    @Consumption.valueHelpDefinition: [{ entity:{ 
+        name: '/DMO/I_CUSTOMER',
+        element: 'CustomerID' 
+     }}]
+    CustomerId;
+    @Consumption.valueHelpDefinition: [{
+        entity: {
+            name: 'I_CURRENCY',
+            element: 'Currency'
+        }
+        }]
+    Currency;
+    
+}

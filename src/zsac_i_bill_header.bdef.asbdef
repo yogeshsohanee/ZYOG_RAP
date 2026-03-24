@@ -1,0 +1,65 @@
+managed implementation in class zbp_sac_i_bill_header unique;
+strict ( 2 );
+
+define behavior for ZSAC_I_Bill_Header
+persistent table zsac_bill_header
+lock master
+authorization master ( instance )
+{
+  create (authorization : global);
+  update;
+  delete;
+  action calculate_netamount result [1] $self; //result [1] $self means that the action returns the updated header
+                                              //instance back to the UI so the screen refreshes automatically
+  field ( readonly : update, mandatory : create ) BillId, SalesOrg;
+  field ( readonly ) NetAmount;
+
+  association _item { create; }
+  mapping for zsac_bill_header
+    {
+      BillId             = bill_id;
+      BillType           = bill_type;
+      BillDate           = bill_date;
+      CustomerId         = customer_id;
+      NetAmount          = net_amount;
+      Currency           = currency;
+      SalesOrg           = sales_org;
+      CreatedBy          = createdby;
+      CreateDat          = createdat;
+      LastChangedBy      = lastchangedby;
+      LastChangeDat      = lastchangedat;
+      LocalLastChangeDat = locallastchangedat;
+    }
+}
+
+define behavior for zsac_i_bill_item
+persistent table zsac_bill_item
+lock dependent by _header
+authorization dependent by _header
+{
+  update;
+  delete;
+
+  field ( readonly : update, mandatory : create ) BillId, ItemNo;
+
+  association _header;
+
+  mapping for zsac_bill_item
+    {
+      BillId             = bill_id;
+      ItemNo             = item_no;
+      MaterialId         = material_id;
+      Description        = description;
+      Quantity           = quantity;
+      ItemAmount         = item_amount;
+      Currency           = currency;
+      Uom                = uom;
+      CreatedBy          = createdby;
+      CreateDat          = createdat;
+      LastChangedBy      = lastchangedby;
+      LastChangeDat      = lastchangedat;
+      LocalLastChangeDat = locallastchangedat;
+    }
+
+
+}
